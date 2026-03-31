@@ -1,3 +1,4 @@
+import React, { useState } from 'react';
 import { seedLadakhData, seedInsightsData } from '../firebase/seedData';
 import { seedJapanCluster } from '../firebase/seedJapan';
 import AdminLogin from './AdminLogin';
