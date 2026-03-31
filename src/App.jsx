@@ -5,6 +5,8 @@ import Departures from './pages/Departures';
 import Dashboard from './pages/Dashboard';
 import ComingSoon from './pages/ComingSoon';
 import DestinationDetail from './pages/DestinationDetail';
+import Insights from './pages/Insights';
+import InsightDetail from './pages/InsightDetail';
 import './App.css';
 
 function AppContent() {
@@ -21,7 +23,8 @@ function AppContent() {
         <Route path="/destinations/:country/:slug" element={<DestinationDetail />} />
         <Route path="/tours" element={<Departures />} />
         <Route path="/insurance" element={<PlaceholderPage title="Travel Insurance" />} />
-        <Route path="/insights" element={<PlaceholderPage title="Travel Insights" />} />
+        <Route path="/insights" element={<Insights />} />
+        <Route path="/insights/:slug" element={<InsightDetail />} />
         <Route path="/login" element={<Dashboard />} />
       </Routes>
 

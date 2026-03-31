@@ -1,15 +1,24 @@
 import React, { useState } from 'react';
-import { seedLadakhData } from '../firebase/seedData';
+import { seedLadakhData, seedInsightsData } from '../firebase/seedData';
 
 const Dashboard = () => {
     const [seeding, setSeeding] = useState(false);
+    const [seedingInsights, setSeedingInsights] = useState(false);
     const [success, setSuccess] = useState(false);
+    const [successInsights, setSuccessInsights] = useState(false);
 
     const handleSeed = async () => {
         setSeeding(true);
         const ok = await seedLadakhData();
         setSuccess(ok);
         setSeeding(false);
+    };
+
+    const handleSeedInsights = async () => {
+        setSeedingInsights(true);
+        const ok = await seedInsightsData();
+        setSuccessInsights(ok);
+        setSeedingInsights(false);
     };
     return (
         <main style={{ paddingTop: '140px', minHeight: '100vh' }}>

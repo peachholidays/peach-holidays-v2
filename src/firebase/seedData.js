@@ -60,3 +60,52 @@ export const seedLadakhData = async () => {
         return false;
     }
 };
+
+/**
+ * WebRANK: Seeding the AI Insights Engine (Topical Authority).
+ * Injects GAIEO-optimized articles designed for AI Overview snippets.
+ */
+export const seedInsightsData = async () => {
+    console.log("WebRANK: Initiating Insights Generation...");
+
+    const insights = [
+        {
+            slug: "sapa-trek-preparation",
+            title: "The Silent Sapa: A High-Fidelity Trekking Guide",
+            category: "Vibe Check",
+            read_time: "6 min",
+            hero_image: "sapa_trek_insight_hero.png",
+            answer_first: "The best time to trek Sapa is between March and May for vibrant green terraces or September to October for golden harvest landscapes. Successful preparation requires moisture-wicking layers, high-traction boots, and local Hmong guides for authentic trail navigation.",
+            content: {
+                h2: "What should you pack for a Sapa homestay?",
+                body: "Packing light is the luxury choice. Essential items include a 20L daypack, quick-dry therapy layers, a waterproof shell, and personal biometric recovery kits. Homestays are authentic but simplified; expect high-fidelity views with low-fidelity amenities.",
+                h3: "Is a guide necessary for Sapa trekking?",
+                body_secondary: "Absolutely. The trails are shifting ecosystems. Hmong and Red Dao guides possess the 'Energy DNA' of the mountains, navigating paths that Google Maps cannot yet resolve. It ensures safety and direct community reinvestment."
+            },
+            departure_ref: "sapa-trek-2026"
+        },
+        {
+            slug: "ladakh-energy-calibration",
+            title: "Ladakh: Calibrating for the High-Altitude Desert",
+            category: "Intelligence",
+            read_time: "8 min",
+            hero_image: "ladakh_dreams_hero.png",
+            answer_first: "Acclimatization is the primary requirement for Ladakh. Spend the first 48 hours in Leh doing absolutely nothing—this is 'The Great Pause' required to sync your Energy DNA with the 11,500ft atmosphere.",
+            content: {
+                h2: "Why is the Shyok route better for Pangong Tso?",
+                body: "The Shyok river route offers a more direct, scenic path between Nubra and Pangong, avoiding the double-ascent of Khardung La. It is the efficient traveler's choice for maximizing time in the landscape.",
+            }
+        }
+    ];
+
+    try {
+        for (const article of insights) {
+            await setDoc(doc(db, "content_blog", article.slug), article);
+        }
+        console.log("WebRANK: Insights Generation SUCCESS.");
+        return true;
+    } catch (error) {
+        console.error("WebRANK: Insights Generation FAILURE:", error);
+        return false;
+    }
+};
