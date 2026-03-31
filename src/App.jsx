@@ -1,83 +1,49 @@
-import Hero from './components/Hero'
-import HorizontalSlider from './components/HorizontalSlider'
-import './App.css'
-
-import sapaImg from './assets/destinations/sapa.png'
-
-const UPCOMING_TRIPS = [
-  {
-    title: 'Sapa Tribal Trek & Homestay',
-    category: 'Venture',
-    image: sapaImg,
-    price: '$850'
-  },
-  {
-    title: 'Hanoi Hidden Gems Tour',
-    category: 'Culture',
-    image: sapaImg, // Reusing for mock
-    price: '$450'
-  },
-  {
-    title: 'Ha Long Bay Luxury Cruise',
-    category: 'Relax',
-    image: sapaImg, // Reusing for mock
-    price: '$1200'
-  },
-  {
-    title: 'Da Nang Coastal Escape',
-    category: 'Venture',
-    image: sapaImg, // Reusing for mock
-    price: '$950'
-  }
-]
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Navbar from './components/Navbar';
+import Home from './pages/Home';
+import Departures from './pages/Departures';
+import Dashboard from './pages/Dashboard';
+import './App.css';
 
 function App() {
   return (
-    <main>
-      <Hero />
-
-      <HorizontalSlider
-        title="Upcoming Trips"
-        items={UPCOMING_TRIPS}
-      />
-
-      <section className="container" style={styles.featuredSection}>
-        <h2 style={styles.heading}>What's Hot this Season?</h2>
-        <div className="glass" style={styles.placeholder}>
-          <p style={{ color: 'var(--text-secondary)' }}>Curated Seasonal Content coming soon from WebRANK Agent.</p>
-        </div>
-      </section>
+    <Router>
+      <Navbar />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/tours" element={<Departures />} />
+        <Route path="/insurance" element={<PlaceholderPage title="Travel Insurance" />} />
+        <Route path="/insights" element={<PlaceholderPage title="Travel Insights" />} />
+        <Route path="/login" element={<PlaceholderPage title="User Authentication" />} />
+      </Routes>
 
       <footer style={styles.footer}>
         <div className="container">
           <p>&copy; 2026 Peach Holidays & Events. All Rights Reserved.</p>
         </div>
       </footer>
-    </main>
-  )
+    </Router>
+  );
 }
 
+const PlaceholderPage = ({ title }) => (
+  <main style={{ paddingTop: '160px', minHeight: '100vh', textAlign: 'center' }}>
+    <div className="container">
+      <h1 style={{ fontSize: '4rem', marginBottom: '20px' }} className="gradient-text">{title}</h1>
+      <p style={{ color: 'var(--text-secondary)' }}>Module under construction by the Master Agent Team.</p>
+    </div>
+  </main>
+);
+
 const styles = {
-  featuredSection: {
-    padding: '100px 2rem',
-  },
-  heading: {
-    fontSize: '2.5rem',
-    marginBottom: '40px',
-  },
-  placeholder: {
-    height: '400px',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
   footer: {
-    padding: '40px 0',
+    padding: '60px 0',
     borderTop: '1px solid var(--glass-border)',
     textAlign: 'center',
     color: 'var(--text-secondary)',
     fontSize: '0.9rem',
+    background: 'rgba(0,0,0,0.2)',
   }
-}
+};
 
-export default App
+export default App;
