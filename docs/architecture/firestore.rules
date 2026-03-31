@@ -1,0 +1,48 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Helper functions
+    function isSignedIn() {
+      return request.auth != null;
+    }
+    
+    function getUserData() {
+      return get(/databases/$(database)/documents/users/$(request.auth.uid)).data;
+    }
+    
+    function getTier() {
+      return getUserData().tier;
+    }
+
+    // [users] collection: Publicly readable for profiles, but only owners can write.
+    match /users/{uid} {
+      allow read: if true;
+      allow write: if request.auth.uid == uid;
+    }
+
+    // [destinations] collection: Publicly readable. Admins (Tier 4) only for write.
+    match /destinations/{slug} {
+      allow read: if true;
+      allow write: if isSignedIn() && getTier() == 4;
+    }
+
+    // [fixed_departures] collection: Publicly readable. Admins (Tier 4) for write.
+    match /fixed_departures/{id} {
+      allow read: if true;
+      allow write: if isSignedIn() && getTier() == 4;
+    }
+
+    // [content_blog] collection: Publicly readable. Managed by AI agents/Admins.
+    match /content_blog/{id} {
+      allow read: if true;
+      allow write: if isSignedIn() && getTier() == 4;
+    }
+
+    // [travel_insurance] collection: Tier-restricted access for specific details if needed.
+    match /travel_insurance/{id} {
+      allow read: if isSignedIn(); // Requires Level 1 (Free) or higher
+      allow write: if isSignedIn() && getTier() == 4;
+    }
+  }
+}
