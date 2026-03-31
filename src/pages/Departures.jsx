@@ -1,17 +1,30 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { collection, getDocs } from 'firebase/firestore';
+import { db } from '../firebase/config';
 import DestinationCard from '../components/DestinationCard';
-import sapaImg from '../assets/destinations/sapa.png';
-
-const MOCK_DEPARTURES = [
-    { title: 'Sapa Tribal Trek', category: 'Venture', image: sapaImg, price: '$850' },
-    { title: 'Hanoi Street Food', category: 'Culture', image: sapaImg, price: '$450' },
-    { title: 'Ha Long Cruise', category: 'Relax', image: sapaImg, price: '$1200' },
-    { title: 'Da Nang Coastal', category: 'Venture', image: sapaImg, price: '$950' },
-    { title: 'Phu Quoc Sunset', category: 'Relax', image: sapaImg, price: '$750' },
-    { title: 'MeKong River Delta', category: 'Culture', image: sapaImg, price: '$550' },
-];
+import sapaImg from '../assets/destinations/sapa.png'; // Fallback
 
 const Departures = () => {
+    const [departures, setDepartures] = useState([]);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        const fetchDepartures = async () => {
+            try {
+                const querySnapshot = await getDocs(collection(db, "fixed_departures"));
+                const liveData = querySnapshot.docs.map(doc => ({
+                    id: doc.id,
+                    ...doc.data()
+                }));
+                setDepartures(liveData);
+            } catch (error) {
+                console.error("WebLOGIC: Error fetching departures:", error);
+            }
+            setLoading(false);
+        };
+        fetchDepartures();
+    }, []);
+
     return (
         <main style={{ paddingTop: '140px', minHeight: '100vh' }}>
             <div className="container">
@@ -20,11 +33,23 @@ const Departures = () => {
                     Book your spot on our upcoming curated group tours. All-inclusive, elite experiences designed for authentic connection.
                 </p>
 
-                <div style={styles.grid}>
-                    {MOCK_DEPARTURES.map((item, index) => (
-                        <DestinationCard key={index} {...item} />
-                    ))}
-                </div>
+                {loading ? (
+                    <div style={{ textAlign: 'center', padding: '100px 0', color: 'var(--brand-primary)' }}>
+                        Calibrating Elite Routes...
+                    </div>
+                ) : (
+                    <div style={styles.grid}>
+                        {departures.map((item) => (
+                            <DestinationCard
+                                key={item.id}
+                                title={item.title}
+                                category="Venture"
+                                image={sapaImg} // Logic for dynamic image loading next
+                                price={`${item.pricing?.currency || 'INR'} ${item.pricing?.amount || item.price}`}
+                            />
+                        ))}
+                    </div>
+                )}
             </div>
         </main>
     );
