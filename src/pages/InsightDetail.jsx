@@ -46,7 +46,7 @@ const InsightDetail = () => {
 
                     {/* GAIEO Answer-First Section */}
                     <div className="glass" style={styles.answerBox}>
-                        <h4 style={{ fontSize: '0.8rem', color: 'var(--brand-primary)', marginBottom: '0.5rem' }}>GAIEO_MODULAR_BLOCK_RAG</h4>
+                        <h4 style={{ fontSize: '0.8rem', color: 'var(--brand-primary)', marginBottom: '0.5rem' }}>INTEL_SYNC</h4>
                         <p style={styles.answerText}>{article.answer_first}</p>
                     </div>
                 </header>
