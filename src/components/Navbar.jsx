@@ -6,13 +6,13 @@ const Navbar = () => {
         <nav className="glass" style={styles.nav}>
             <div className="container" style={styles.container}>
                 <Link to="/" style={styles.logo}>
-                    PEACH<span style={{ color: 'var(--peach)' }}>.</span>
+                    PEACH<span style={{ color: 'var(--brand-primary)' }}>.</span>
                 </Link>
                 <div style={styles.links}>
                     <Link to="/tours" style={styles.link}>Departures</Link>
                     <Link to="/insurance" style={styles.link}>Insurance</Link>
                     <Link to="/insights" style={styles.link}>Insights</Link>
-                    <Link to="/login" className="glass" style={styles.loginBtn}>Login</Link>
+                    <Link to="/login" className="glass" style={styles.loginBtn}>Portal</Link>
                 </div>
             </div>
         </nav>
@@ -22,14 +22,14 @@ const Navbar = () => {
 const styles = {
     nav: {
         position: 'fixed',
-        top: '20px',
+        top: '24px',
         left: '50%',
         transform: 'translateX(-50%)',
         width: '90%',
         maxWidth: '1200px',
         zIndex: 1000,
-        padding: '12px 24px',
-        border: '1px solid var(--glass-border)',
+        padding: '14px 32px',
+        borderRadius: '24px',
     },
     container: {
         display: 'flex',
@@ -38,7 +38,7 @@ const styles = {
         padding: 0,
     },
     logo: {
-        fontSize: '1.5rem',
+        fontSize: '1.4rem',
         fontWeight: 800,
         fontFamily: 'var(--font-heading)',
         textDecoration: 'none',
@@ -47,22 +47,23 @@ const styles = {
     },
     links: {
         display: 'flex',
-        gap: '32px',
+        gap: '40px',
         alignItems: 'center',
     },
     link: {
         textDecoration: 'none',
-        color: 'var(--text-secondary)',
-        fontSize: '0.9rem',
+        color: 'var(--text-dim)',
+        fontSize: '0.85rem',
         fontWeight: 500,
         transition: 'color 0.3s ease',
     },
     loginBtn: {
-        padding: '8px 20px',
-        fontSize: '0.9rem',
+        padding: '10px 24px',
+        fontSize: '0.85rem',
         textDecoration: 'none',
         color: 'white',
-        border: '1px solid var(--glass-border)',
+        borderRadius: '12px',
+        fontWeight: 600,
     }
 };
 

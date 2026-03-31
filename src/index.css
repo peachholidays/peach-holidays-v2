@@ -1,20 +1,27 @@
 :root {
-  /* WebAURA Brand Palette */
-  --peach: hsl(14, 100%, 65%);
-  --neon-pink: hsl(330, 100%, 70%);
-  --electric-indigo: hsl(260, 100%, 70%);
-  --bg-dark: #0a0a0c;
-  --glass-bg: rgba(255, 255, 255, 0.05);
-  --glass-border: rgba(255, 255, 255, 0.1);
-  --text-primary: #ffffff;
-  --text-secondary: rgba(255, 255, 255, 0.7);
+  /* WebAURA Brand Palette (Placeholder Matrix) */
+  --brand-primary: hsl(14, 100%, 65%);
+  --brand-secondary: hsl(330, 40%, 90%);
+  --brand-accent: hsl(260, 100%, 75%);
+  --brand-bg: hsl(240, 10%, 4%);
+  --brand-surface: rgba(255, 255, 255, 0.05);
+  --brand-glass-border: rgba(255, 255, 255, 0.1);
 
   /* Typography */
   --font-heading: 'Outfit', sans-serif;
   --font-body: 'Inter', sans-serif;
 
-  /* UI Tokens */
-  --radius: 24px;
+  /* Structural UI Tokens */
+  --radius-outer: 32px;
+  --radius-inner: 16px;
+  --blur-glass: 24px;
+  --shadow-depth: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+  --padding-v: 120px;
+  --padding-h: 5%;
+
+  /* Functional Colors */
+  --text-main: #ffffff;
+  --text-dim: rgba(255, 255, 255, 0.7);
 }
 
 * {
@@ -24,36 +31,54 @@
 }
 
 body {
-  background-color: var(--bg-dark);
-  color: var(--text-primary);
+  background-color: var(--brand-bg);
+  color: var(--text-main);
   font-family: var(--font-body);
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
 }
 
-h1, h2, h3, h4 {
+h1,
+h2,
+h3,
+h4 {
   font-family: var(--font-heading);
   letter-spacing: -0.02em;
 }
 
 .glass {
-  background: var(--glass-bg);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid var(--glass-border);
-  border-radius: var(--radius);
+  background: var(--brand-surface);
+  backdrop-filter: blur(var(--blur-glass)) saturate(180%);
+  -webkit-backdrop-filter: blur(var(--blur-glass)) saturate(180%);
+  border: 1px solid var(--brand-glass-border);
+  border-radius: var(--radius-inner);
+  box-shadow: var(--shadow-depth);
 }
 
 .container {
-  max-width: 1400px;
+  max-width: 1440px;
   margin: 0 auto;
-  padding: 0 2rem;
+  padding: 0 var(--padding-h);
+}
+
+.section-padding {
+  padding: var(--padding-v) 0;
 }
 
 .gradient-text {
-  background: linear-gradient(90deg, var(--peach), var(--neon-pink), var(--electric-indigo));
+  background: linear-gradient(90deg, var(--brand-primary), #ff66b2, var(--brand-accent));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+}
+
+/* Scrollbar Hide for Horizontal Sliders */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
