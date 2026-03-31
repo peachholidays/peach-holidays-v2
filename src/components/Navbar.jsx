@@ -1,9 +1,40 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
+/**
+ * WebAURA: Dynamic Sticky Navbar
+ * Transitions from a floating glass pill to a thin 90% black sticky bar on scroll.
+ */
 const Navbar = () => {
+    const [scrolled, setScrolled] = useState(false);
+
+    useEffect(() => {
+        const handleScroll = () => {
+            const isScrolled = window.scrollY > 40;
+            if (isScrolled !== scrolled) {
+                setScrolled(isScrolled);
+            }
+        };
+
+        window.addEventListener('scroll', handleScroll, { passive: true });
+        return () => window.removeEventListener('scroll', handleScroll);
+    }, [scrolled]);
+
+    const navStyle = {
+        ...styles.nav,
+        top: scrolled ? '0' : '24px',
+        width: scrolled ? '100%' : '90%',
+        maxWidth: scrolled ? 'none' : '1200px',
+        borderRadius: scrolled ? '0' : '24px',
+        background: scrolled ? 'rgba(0, 0, 0, 0.95)' : 'var(--brand-surface)',
+        backdropFilter: scrolled ? 'blur(10px)' : 'blur(24px) saturate(180%)',
+        padding: scrolled ? '10px 5%' : '14px 32px',
+        border: scrolled ? 'none' : '1px solid var(--brand-glass-border)',
+        borderBottom: scrolled ? '1px solid rgba(255,255,255,0.1)' : '1px solid var(--brand-glass-border)',
+    };
+
     return (
-        <nav className="glass" style={styles.nav}>
+        <nav style={navStyle}>
             <div className="container" style={styles.container}>
                 <Link to="/" style={styles.logo}>
                     PEACH<span style={{ color: 'var(--brand-primary)' }}>.</span>
@@ -22,20 +53,17 @@ const Navbar = () => {
 const styles = {
     nav: {
         position: 'fixed',
-        top: '24px',
         left: '50%',
         transform: 'translateX(-50%)',
-        width: '90%',
-        maxWidth: '1200px',
         zIndex: 1000,
-        padding: '14px 32px',
-        borderRadius: '24px',
+        transition: 'all 0.4s cubic-bezier(0.19, 1, 0.22, 1)',
     },
     container: {
         display: 'flex',
         justifyContent: 'space-between',
         alignItems: 'center',
         padding: 0,
+        maxWidth: '1400px',
     },
     logo: {
         fontSize: '1.4rem',
@@ -64,6 +92,7 @@ const styles = {
         color: 'white',
         borderRadius: '12px',
         fontWeight: 600,
+        transition: 'all 0.3s ease',
     }
 };
 
