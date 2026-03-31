@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
 import { seedLadakhData, seedInsightsData } from '../firebase/seedData';
 import { seedJapanCluster } from '../firebase/seedJapan';
+import AdminLogin from './AdminLogin';
 
 /**
  * WebLOGIC: AdminHub
@@ -14,6 +14,11 @@ const AdminHub = () => {
     const [successInsights, setSuccessInsights] = useState(false);
     const [successJapan, setSuccessJapan] = useState(false);
     const [error, setError] = useState("");
+    const [authenticated, setAuthenticated] = useState(sessionStorage.getItem("md_auth") === "true");
+
+    if (!authenticated) {
+        return <AdminLogin onLogin={() => setAuthenticated(true)} />;
+    }
 
     const handleSeed = async () => {
         setSeeding(true);
