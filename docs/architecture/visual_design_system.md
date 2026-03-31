@@ -1,24 +1,33 @@
-# WebAURA Visual Design System: Peach Holidays
+# WebAURA Design System Matrix: Project Peach
 
-**Directive**: Award-winning, Gen Z/Alpha appeal, Glassmorphism, Fluidity.
+**Design Philosophy**: "Quiet Luxury meets Soft-Neon" (High-end Millennial/Gen Z appeal).
 
-## 1. Color Palette: 'The Vibrant Peach'
-- **Primary (Peach)**: `HSL(14, 100%, 65%)` -> #FF8C4B (Vibrant but warm)
-- **Secondary (Soft Neon Pink)**: `HSL(330, 100%, 70%)` -> #FF66B2
-- **Accent (Electric Indigo)**: `HSL(260, 100%, 70%)` -> #B366FF
-- **Surface (Glass)**: `rgba(255, 255, 255, 0.05)` with `backdrop-filter: blur(20px)`
-- **Background**: `HSL(240, 10%, 4%)` -> #0A0A0C (Deep Cosmic Black)
+## 1. Global CSS Variable Tokens (Webflow Ready)
+These variables are designed for instant hot-swapping once the final brand kit is delivered.
 
-## 2. Typography
-- **Headings**: *Outfit* (Google Fonts) - Clean, modern, geometric.
-- **Body**: *Inter* - Maximum readability and premium feel.
+| Token | Placeholder Value (HSL) | CSS Variable | Usage |
+| :--- | :--- | :--- | :--- |
+| **Primary** | `HSL(14, 100%, 65%)` | `--brand-primary` | Main CTA, Accent Highlights. |
+| **Secondary** | `HSL(330, 40%, 90%)` | `--brand-secondary`| Sub-sections, Soft gradients. |
+| **Accent** | `HSL(260, 100%, 75%)` | `--brand-accent` | Hover states, Interactive elements. |
+| **Background**| `HSL(240, 10%, 4%)` | `--brand-bg` | Page background (Cosmic Black). |
+| **Surface** | `rgba(255, 255, 255, 0.05)`| `--brand-surface` | Glass containers, Navigation. |
 
-## 3. UI Tokens
-- **Corner Radius**: `24px` (Very rounded, soft feel).
-- **Shadows**: Soft glow instead of hard dropshadows.
-- **Micro-interactions**: Scale `1.05` on hover, `0.95` on click.
+## 2. Structural Styling Logic
+- **Border Radius**: `32px` (Outer containers), `16px` (Inner cards).
+- **Glassmorphism**: `backdrop-filter: blur(24px) saturate(180%)`.
+- **Shadow Depth**: `0 8px 32px 0 rgba(0, 0, 0, 0.37)`.
+- **Global Padding**: `120px` (Vertical section spacing), `5%` (Horizontal container safe zone).
 
-## 4. Animation Principles (AURA's Domain)
-- **Entrance**: Staggered fades and slight upward translations.
-- **Scroll**: Parallax depth for the 'Mega-Search Bar' and horizontal travel cards.
-- **Feel**: Snappy but elastic (Ease: `expo.out`).
+## 3. Typography: "Quiet Luxury"
+- **Headings**: **'Outfit'** (Sans-Serif, Geometric, Premium weight).
+- **Body**: **'Inter'** (High-legibility, Optimized for mobile UI).
+
+## 4. Animation Guidelines (GSAP Rules)
+- **Mega-Search**: 
+    - *Page Load*: Elastic Scale (0.9 -> 1.0) with Fade.
+    - *Scroll Toggle*: Subtle blur transition as the user leaves the hero section.
+- **Trip Cards**: 
+    - *Hover*: Soft glow implementation with 1.02x scale + translation y(-10px).
+    - *Stagger*: 0.15s delay between card entries on scroll.
+- **Global Micro-interactions**: Duration `0.4s`, Ease `power3.out`.
