@@ -3,27 +3,53 @@ import { Link } from 'react-router-dom';
 import { collection, getDocs } from 'firebase/firestore';
 import { db } from '../firebase/config';
 
+/**
+ * WebRANK: Insights Aggregator v2
+ * High-performance directory fetching from Hubs, Spokes, and Legacy Content Blog.
+ */
 const Insights = () => {
     const [insights, setInsights] = useState([]);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        const fetchInsights = async () => {
-            const querySnapshot = await getDocs(collection(db, "content_blog"));
-            setInsights(querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })));
+        const fetchAllInsights = async () => {
+            try {
+                // Parallel fetch from all content collections
+                const [blogSnap, hubsSnap, spokesSnap] = await Promise.all([
+                    getDocs(collection(db, "content_blog")),
+                    getDocs(collection(db, "content_hubs")),
+                    getDocs(collection(db, "content_spokes"))
+                ]);
+
+                const blogs = blogSnap.docs.map(doc => ({ id: doc.id, type: 'legacy', ...doc.data() }));
+                const hubs = hubsSnap.docs.map(doc => ({ id: doc.id, type: 'hub', ...doc.data() }));
+                const spokes = spokesSnap.docs.map(doc => ({ id: doc.id, type: 'spoke', ...doc.data() }));
+
+                // Unified state
+                setInsights([...hubs, ...spokes, ...blogs]);
+            } catch (error) {
+                console.error("WebRANK: Error aggregating insights:", error);
+            }
             setLoading(false);
         };
-        fetchInsights();
+        fetchAllInsights();
     }, []);
+
+    const getArticleLink = (article) => {
+        if (article.type === 'spoke') {
+            return `/insights/${article.parent_hub}/${article.slug}`;
+        }
+        return `/insights/${article.slug}`;
+    };
 
     return (
         <main style={styles.main}>
             <div className="container">
                 <header style={styles.header}>
-                    <div style={styles.badge}>WEB_RANK_ENGINE_V1</div>
+                    <div style={styles.badge}>PHAE_KNOWLEDGE_GRID_V4</div>
                     <h1 style={styles.h1}>PEACH <span className="gradient-text">INSIGHTS</span></h1>
                     <p style={styles.subtitle}>
-                        High-fidelity travel intelligence. Calibrated for the curious, the adventurous, and the seekers of Energy DNA.
+                        Decentralized travel intelligence. High-fidelity 'Ranch-Style' content clusters for the curious explorer.
                     </p>
                 </header>
 
@@ -32,15 +58,18 @@ const Insights = () => {
                 ) : (
                     <div style={styles.grid}>
                         {insights.map((article) => (
-                            <Link key={article.id} to={`/insights/${article.slug}`} className="glass" style={styles.card}>
+                            <Link key={article.id} to={getArticleLink(article)} className="glass" style={styles.card}>
                                 <div style={styles.cardInfo}>
-                                    <span style={styles.category}>{article.category}</span>
+                                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+                                        <span style={styles.category}>{article.category}</span>
+                                        <span style={styles.typeTag}>{article.type === 'hub' ? 'PILLAR' : article.type === 'spoke' ? 'MICRO' : 'INTEL'}</span>
+                                    </div>
                                     <h2 style={styles.cardTitle}>{article.title}</h2>
-                                    <p style={styles.excerpt}>{article.answer_first.substring(0, 100)}...</p>
+                                    <p style={styles.excerpt}>{article.answer_first?.substring(0, 100)}...</p>
                                     <div style={styles.cardFooter}>
-                                        <span>{article.read_time} read</span>
+                                        <span>{article.read_time || '5 min'} read</span>
                                         <div style={styles.dot}></div>
-                                        <span style={{ color: 'var(--brand-primary)' }}>Read Insight →</span>
+                                        <span style={{ color: 'var(--brand-primary)' }}>Retrieve Insight →</span>
                                     </div>
                                 </div>
                             </Link>
@@ -70,14 +99,14 @@ const styles = {
         marginBottom: '1rem',
     },
     h1: {
-        fontSize: '4rem',
+        fontSize: 'clamp(2.5rem, 8vw, 4rem)',
         fontWeight: 800,
         marginBottom: '1.5rem',
     },
     subtitle: {
         fontSize: '1.2rem',
         color: 'var(--text-secondary)',
-        maxWidth: '600px',
+        maxWidth: '700px',
         margin: '0 auto',
     },
     grid: {
@@ -91,6 +120,7 @@ const styles = {
         color: 'white',
         overflow: 'hidden',
         transition: 'transform 0.3s ease',
+        border: '1px solid var(--brand-glass-border)',
     },
     cardInfo: {
         padding: '32px',
@@ -101,19 +131,28 @@ const styles = {
         letterSpacing: '0.1em',
         color: 'var(--brand-primary)',
         fontWeight: 700,
-        display: 'block',
         marginBottom: '1rem',
+    },
+    typeTag: {
+        fontSize: '0.6rem',
+        padding: '4px 8px',
+        background: 'rgba(255,255,255,0.05)',
+        borderRadius: '4px',
+        color: 'var(--text-dim)',
     },
     cardTitle: {
         fontSize: '1.5rem',
         lineHeight: 1.3,
         marginBottom: '1rem',
+        marginTop: '0.5rem',
     },
     excerpt: {
         color: 'var(--text-secondary)',
         fontSize: '0.9rem',
         lineHeight: 1.6,
         marginBottom: '2rem',
+        height: '3.2em',
+        overflow: 'hidden',
     },
     cardFooter: {
         display: 'flex',
