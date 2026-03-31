@@ -1,10 +1,12 @@
 import React, { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
+import { Instagram, Facebook, Youtube, Mail } from 'lucide-react';
 
 const ComingSoon = () => {
     const containerRef = useRef(null);
     const textRef = useRef(null);
     const subRef = useRef(null);
+    const socialRef = useRef(null);
     const footerRef = useRef(null);
 
     useEffect(() => {
@@ -24,6 +26,11 @@ const ComingSoon = () => {
                 { y: 0, opacity: 1 },
                 "-=1.5"
             )
+            .fromTo(socialRef.current,
+                { y: 30, opacity: 0 },
+                { y: 0, opacity: 1, stagger: 0.2 },
+                "-=1"
+            )
             .fromTo(footerRef.current,
                 { opacity: 0 },
                 { opacity: 1 },
@@ -39,6 +46,13 @@ const ComingSoon = () => {
             ease: "sine.inOut"
         });
     }, []);
+
+    const socialLinks = [
+        { icon: <Instagram size={20} />, url: 'https://www.instagram.com/peach.holidays.and.events/' },
+        { icon: <Facebook size={20} />, url: 'https://www.facebook.com/peach.holidays.and.events' },
+        { icon: <Youtube size={20} />, url: 'https://www.facebook.com/peach.holidays.and.events' }, // Following user's provided link
+        { icon: <Mail size={20} />, url: 'mailto:peachholidays.ae@gmail.com' },
+    ];
 
     return (
         <main ref={containerRef} style={styles.main}>
@@ -59,11 +73,20 @@ const ComingSoon = () => {
                     <input type="email" placeholder="JOIN_THE_FLOW@PEACH.COM" style={styles.input} />
                     <button style={styles.button}>RE-TUNE SOON</button>
                 </div>
+
+                {/* Social Connectivity */}
+                <div ref={socialRef} style={styles.socialGrid}>
+                    {socialLinks.map((link, idx) => (
+                        <a key={idx} href={link.url} target="_blank" rel="noopener noreferrer" className="glass" style={styles.socialIcon}>
+                            {link.icon}
+                        </a>
+                    ))}
+                </div>
             </div>
 
             <footer ref={footerRef} style={styles.footer}>
                 <div className="container" style={styles.footerInner}>
-                    <span>EST. 2026</span>
+                    <span>EST. 2020</span>
                     <div style={styles.dot}></div>
                     <span>FORMERLY ONELIFE TRAVEL</span>
                     <div style={styles.dot}></div>
@@ -121,13 +144,13 @@ const styles = {
         fontSize: '1.2rem',
         color: 'rgba(255,255,255,0.6)',
         maxWidth: '800px',
-        margin: '0 auto 4rem',
+        margin: '0 auto 3rem',
         lineHeight: 1.8,
     },
     formContainer: {
         display: 'flex',
         maxWidth: '500px',
-        margin: '0 auto',
+        margin: '0 auto 3rem',
         padding: '8px',
         background: 'rgba(255,255,255,0.03)',
         border: '1px solid rgba(255,255,255,0.1)',
@@ -155,6 +178,22 @@ const styles = {
         fontWeight: 800,
         cursor: 'pointer',
         transition: 'all 0.3s ease',
+    },
+    socialGrid: {
+        display: 'flex',
+        justifyContent: 'center',
+        gap: '16px',
+    },
+    socialIcon: {
+        width: '48px',
+        height: '48px',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderRadius: '12px',
+        color: 'white',
+        transition: 'all 0.3s ease',
+        textDecoration: 'none',
     },
     footer: {
         position: 'absolute',
