@@ -7,6 +7,7 @@ import ComingSoon from './pages/ComingSoon';
 import DestinationDetail from './pages/DestinationDetail';
 import Insights from './pages/Insights';
 import InsightDetail from './pages/InsightDetail';
+import AdminHub from './pages/AdminHub';
 import './App.css';
 
 function AppContent() {
@@ -27,6 +28,7 @@ function AppContent() {
         <Route path="/insights/:slug" element={<InsightDetail />} />
         <Route path="/insights/:hubSlug/:spokeSlug" element={<InsightDetail />} />
         <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/md-intelligence-hub" element={<AdminHub />} />
       </Routes>
 
       {!isComingSoon && (

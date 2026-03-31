@@ -1,42 +1,6 @@
 import React, { useState } from 'react';
-import { seedLadakhData, seedInsightsData } from '../firebase/seedData';
-import { seedJapanCluster } from '../firebase/seedJapan';
 
 const Dashboard = () => {
-    const [seeding, setSeeding] = useState(false);
-    const [seedingInsights, setSeedingInsights] = useState(false);
-    const [seedingJapan, setSeedingJapan] = useState(false);
-    const [success, setSuccess] = useState(false);
-    const [successInsights, setSuccessInsights] = useState(false);
-    const [successJapan, setSuccessJapan] = useState(false);
-    const [error, setError] = useState("");
-
-    const handleSeed = async () => {
-        setSeeding(true);
-        setError("");
-        const result = await seedLadakhData();
-        setSuccess(result.success);
-        if (result.error) setError(result.error);
-        setSeeding(false);
-    };
-
-    const handleSeedInsights = async () => {
-        setSeedingInsights(true);
-        setError("");
-        const result = await seedInsightsData();
-        setSuccessInsights(result.success);
-        if (result.error) setError(result.error);
-        setSeedingInsights(false);
-    };
-
-    const handleSeedJapan = async () => {
-        setSeedingJapan(true);
-        setError("");
-        const result = await seedJapanCluster();
-        setSuccessJapan(result.success);
-        if (result.error) setError(result.error);
-        setSeedingJapan(false);
-    };
     return (
         <main style={{ paddingTop: '140px', minHeight: '100vh' }}>
             <div className="container">
@@ -53,7 +17,7 @@ const Dashboard = () => {
                 <div style={styles.grid}>
                     <div className="glass" style={styles.card}>
                         <h3>Upcoming Itineraries</h3>
-                        <p style={styles.cardBody}>You have no active bookings. Explore our [Fixed Departures](/tours) to start your journey.</p>
+                        <p style={styles.cardBody}>You have no active bookings. Explore our <a href="/tours" style={{ color: 'var(--brand-primary)' }}>Fixed Departures</a> to start your journey.</p>
                     </div>
 
                     <div className="glass" style={styles.card}>
@@ -63,51 +27,6 @@ const Dashboard = () => {
                             <div style={{ ...styles.bar, width: '40%', background: 'var(--neon-pink)' }}>Serenity (40%)</div>
                             <div style={{ ...styles.bar, width: '60%', background: 'var(--electric-indigo)' }}>Culture (60%)</div>
                         </div>
-                    </div>
-
-                    <div className="glass" style={{ ...styles.card, gridColumn: 'span 2' }}>
-                        <h3>MD Intelligence Tools</h3>
-                        <p style={styles.cardBody}>Execute data injection for the Ladakh Dreams 2026 tour and GAIEO Insights Hub directly into the production Firestore.</p>
-
-                        <div style={{ marginTop: '20px', display: 'flex', gap: '12px' }}>
-                            <button
-                                onClick={handleSeed}
-                                disabled={seeding}
-                                style={{
-                                    background: success ? '#4CAF50' : 'var(--brand-primary)',
-                                    color: 'white', border: 'none', padding: '12px 24px', borderRadius: '12px', fontWeight: 700, cursor: 'pointer'
-                                }}
-                            >
-                                {seeding ? "Injecting Tour..." : success ? "Tour Injected" : "Seed Ladakh Dreams"}
-                            </button>
-
-                            <button
-                                onClick={handleSeedInsights}
-                                disabled={seedingInsights}
-                                style={{
-                                    background: successInsights ? '#4CAF50' : 'var(--peach)',
-                                    color: 'black', border: 'none', padding: '12px 24px', borderRadius: '12px', fontWeight: 700, cursor: 'pointer'
-                                }}
-                            >
-                                {seedingInsights ? "Generating Insights..." : successInsights ? "Insights Generated" : "Seed AI Insights"}
-                            </button>
-
-                            <button
-                                onClick={handleSeedJapan}
-                                disabled={seedingJapan}
-                                style={{
-                                    background: successJapan ? '#4CAF50' : 'var(--brand-accent)',
-                                    color: 'black', border: 'none', padding: '12px 24px', borderRadius: '12px', fontWeight: 700, cursor: 'pointer'
-                                }}
-                            >
-                                {seedingJapan ? "Planting Japan Ranch..." : successJapan ? "Japan Cluster Live" : "Seed Japan Cluster"}
-                            </button>
-                        </div>
-                        {error && (
-                            <div style={{ marginTop: '20px', color: '#ff4b2b', fontSize: '0.8rem', background: 'rgba(255,0,0,0.1)', padding: '12px', borderRadius: '8px', border: '1px solid rgba(255,0,0,0.2)' }}>
-                                <strong>INTELLIGENCE_ERROR:</strong> {error}
-                            </div>
-                        )}
                     </div>
 
                     <div className="glass" style={{ ...styles.card, gridColumn: 'span 2' }}>
@@ -145,6 +64,7 @@ const styles = {
         display: 'grid',
         gridTemplateColumns: 'repeat(2, 1fr)',
         gap: '24px',
+        paddingBottom: '100px',
     },
     card: {
         padding: '32px',
