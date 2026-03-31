@@ -56,7 +56,7 @@ const DestinationDetail = () => {
                             {isLadakh ? "The journey begins in Leh for acclimatization. Travelers will cross Chang La to witness the changing colors of Pangong Tso lake. The route then descends via Shyok into the Nubra Valley to see the sand dunes of Hundar and experience a ride on double-humped Bactrian camels. The return to Leh involves crossing the mighty Khardung La pass." : data?.description}
                         </p>
 
-                        <h3 style={styles.h2} style={{ marginTop: '4rem' }}>
+                        <h3 style={{ ...styles.h2, marginTop: '4rem' }}>
                             {isLadakh ? "What is excluded from the Ladakh package cost?" : "Exclusions & Notes"}
                         </h3>
                         <p style={styles.p}>
