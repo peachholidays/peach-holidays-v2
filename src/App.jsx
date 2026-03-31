@@ -25,6 +25,7 @@ function AppContent() {
         <Route path="/insurance" element={<PlaceholderPage title="Travel Insurance" />} />
         <Route path="/insights" element={<Insights />} />
         <Route path="/insights/:slug" element={<InsightDetail />} />
+        <Route path="/insights/:hubSlug/:spokeSlug" element={<InsightDetail />} />
         <Route path="/dashboard" element={<Dashboard />} />
       </Routes>
 

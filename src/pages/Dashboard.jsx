@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
 import { seedLadakhData, seedInsightsData } from '../firebase/seedData';
+import { seedJapanCluster } from '../firebase/seedJapan';
 
 const Dashboard = () => {
     const [seeding, setSeeding] = useState(false);
     const [seedingInsights, setSeedingInsights] = useState(false);
+    const [seedingJapan, setSeedingJapan] = useState(false);
     const [success, setSuccess] = useState(false);
     const [successInsights, setSuccessInsights] = useState(false);
+    const [successJapan, setSuccessJapan] = useState(false);
     const [error, setError] = useState("");
 
     const handleSeed = async () => {
@@ -24,6 +27,15 @@ const Dashboard = () => {
         setSuccessInsights(result.success);
         if (result.error) setError(result.error);
         setSeedingInsights(false);
+    };
+
+    const handleSeedJapan = async () => {
+        setSeedingJapan(true);
+        setError("");
+        const result = await seedJapanCluster();
+        setSuccessJapan(result.success);
+        if (result.error) setError(result.error);
+        setSeedingJapan(false);
     };
     return (
         <main style={{ paddingTop: '140px', minHeight: '100vh' }}>
@@ -78,6 +90,17 @@ const Dashboard = () => {
                                 }}
                             >
                                 {seedingInsights ? "Generating Insights..." : successInsights ? "Insights Generated" : "Seed AI Insights"}
+                            </button>
+
+                            <button
+                                onClick={handleSeedJapan}
+                                disabled={seedingJapan}
+                                style={{
+                                    background: successJapan ? '#4CAF50' : 'var(--brand-accent)',
+                                    color: 'black', border: 'none', padding: '12px 24px', borderRadius: '12px', fontWeight: 700, cursor: 'pointer'
+                                }}
+                            >
+                                {seedingJapan ? "Planting Japan Ranch..." : successJapan ? "Japan Cluster Live" : "Seed Japan Cluster"}
                             </button>
                         </div>
                         {error && (

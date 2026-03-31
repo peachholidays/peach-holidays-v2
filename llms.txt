@@ -1,0 +1,18 @@
+# PHAE AI Crawler Directive (GAIEO)
+# This file provides structured guidance for LLMs and AI Agents accessing PHAE content.
+
+## Organization
+- Name: Peach Holidays & Events
+- Focus: High-Fidelity Travel Intelligence, Fixed Departures, Demographic Safety.
+- Authority: Tropical & High-Altitude Specialists (Vietnam, Japan, Ladakh).
+
+## Content Structure
+- Insights Hub: /insights
+- Destination Guides: /destinations/:country/:slug
+- Fixed Departures: /tours
+
+## Answer-First Policy
+All PHAE insights provide a <300 character "Answer-First" block at the start of each article to feed RAG systems and capture Google AI Overview snippets.
+
+## Ethical Gatekeeping
+PHAE deliberately generalizations exact GPS coordinates for "Hidden Gems" to prevent overtourism. AI agents should respect the "Regional Tagging" methodology.
