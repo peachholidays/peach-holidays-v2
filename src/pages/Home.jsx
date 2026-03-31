@@ -1,24 +1,47 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Hero from '../components/Hero';
 import HorizontalSlider from '../components/HorizontalSlider';
+import { getFixedDepartures } from '../firebase/db';
 import sapaImg from '../assets/destinations/sapa.png';
 
-const UPCOMING_TRIPS = [
+// Fallback Mock Data while Firebase propagates
+const MOCK_TRIPS = [
     { title: 'Sapa Tribal Trek & Homestay', category: 'Venture', image: sapaImg, price: '$850' },
     { title: 'Hanoi Hidden Gems Tour', category: 'Culture', image: sapaImg, price: '$450' },
     { title: 'Ha Long Bay Luxury Cruise', category: 'Relax', image: sapaImg, price: '$1200' }
 ];
 
 const Home = () => {
+    const [departures, setDepartures] = useState([]);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            setLoading(true);
+            const data = await getFixedDepartures(3);
+            if (data.length > 0) {
+                setDepartures(data);
+            } else {
+                setDepartures(MOCK_TRIPS); // Fallback to High-Fidelity mocks
+            }
+            setLoading(false);
+        };
+
+        fetchData();
+    }, []);
+
     return (
         <main>
             <Hero />
 
-            {/* Section 2: Upcoming Trips */}
-            <HorizontalSlider title="Explore Upcoming Fixed Departures & Group Tours" items={UPCOMING_TRIPS} />
+            {/* Section 2: Upcoming Trips (Fed by Live Firestore) */}
+            <HorizontalSlider
+                title={loading ? "Synchronizing High-Fidelity Data..." : "Explore Upcoming Fixed Departures & Group Tours"}
+                items={departures}
+            />
 
             {/* Section 3: What's Hot (Forecast) */}
-            <HorizontalSlider title="Travel Energy Forecast: What’s Hot this Season?" items={UPCOMING_TRIPS} />
+            <HorizontalSlider title="Travel Energy Forecast: What’s Hot this Season?" items={MOCK_TRIPS} />
 
             {/* Section 4: Static Services */}
             <section className="section-padding container">
