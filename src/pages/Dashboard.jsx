@@ -50,18 +50,31 @@ const Dashboard = () => {
 
                     <div className="glass" style={{ ...styles.card, gridColumn: 'span 2' }}>
                         <h3>MD Intelligence Tools</h3>
-                        <p style={styles.cardBody}>Execute data injection for the Ladakh Dreams 2026 tour directly into the production Firestore.</p>
-                        <button
-                            onClick={handleSeed}
-                            disabled={seeding}
-                            style={{
-                                background: success ? '#4CAF50' : 'var(--brand-primary)',
-                                color: 'white', border: 'none', padding: '12px 24px', borderRadius: '12px', fontWeight: 700, cursor: 'pointer',
-                                marginTop: '20px'
-                            }}
-                        >
-                            {seeding ? "Injecting Data..." : success ? "Ladakh Injected Successfully" : "Seed Ladakh Dreams Data"}
-                        </button>
+                        <p style={styles.cardBody}>Execute data injection for the Ladakh Dreams 2026 tour and GAIEO Insights Hub directly into the production Firestore.</p>
+
+                        <div style={{ marginTop: '20px', display: 'flex', gap: '12px' }}>
+                            <button
+                                onClick={handleSeed}
+                                disabled={seeding}
+                                style={{
+                                    background: success ? '#4CAF50' : 'var(--brand-primary)',
+                                    color: 'white', border: 'none', padding: '12px 24px', borderRadius: '12px', fontWeight: 700, cursor: 'pointer'
+                                }}
+                            >
+                                {seeding ? "Injecting Tour..." : success ? "Tour Injected" : "Seed Ladakh Dreams"}
+                            </button>
+
+                            <button
+                                onClick={handleSeedInsights}
+                                disabled={seedingInsights}
+                                style={{
+                                    background: successInsights ? '#4CAF50' : 'var(--peach)',
+                                    color: 'black', border: 'none', padding: '12px 24px', borderRadius: '12px', fontWeight: 700, cursor: 'pointer'
+                                }}
+                            >
+                                {seedingInsights ? "Generating Insights..." : successInsights ? "Insights Generated" : "Seed AI Insights"}
+                            </button>
+                        </div>
                     </div>
 
                     <div className="glass" style={{ ...styles.card, gridColumn: 'span 2' }}>
