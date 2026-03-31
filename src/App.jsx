@@ -14,7 +14,7 @@ function App() {
         <Route path="/tours" element={<Departures />} />
         <Route path="/insurance" element={<PlaceholderPage title="Travel Insurance" />} />
         <Route path="/insights" element={<PlaceholderPage title="Travel Insights" />} />
-        <Route path="/login" element={<PlaceholderPage title="User Authentication" />} />
+        <Route path="/login" element={<Dashboard />} />
       </Routes>
 
       <footer style={styles.footer}>
