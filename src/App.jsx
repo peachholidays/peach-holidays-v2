@@ -4,6 +4,7 @@ import Home from './pages/Home';
 import Departures from './pages/Departures';
 import Dashboard from './pages/Dashboard';
 import ComingSoon from './pages/ComingSoon';
+import DestinationDetail from './pages/DestinationDetail';
 import './App.css';
 
 function AppContent() {
@@ -17,6 +18,7 @@ function AppContent() {
         <Route path="/" element={<ComingSoon />} />
         <Route path="/lab/alpha" element={<Home />} />
         <Route path="/lab/tours" element={<Departures />} />
+        <Route path="/destinations/:country/:slug" element={<DestinationDetail />} />
         <Route path="/tours" element={<Departures />} />
         <Route path="/insurance" element={<PlaceholderPage title="Travel Insurance" />} />
         <Route path="/insights" element={<PlaceholderPage title="Travel Insights" />} />

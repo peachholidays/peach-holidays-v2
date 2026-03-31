@@ -1,6 +1,16 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { seedLadakhData } from '../firebase/seedData';
 
 const Dashboard = () => {
+    const [seeding, setSeeding] = useState(false);
+    const [success, setSuccess] = useState(false);
+
+    const handleSeed = async () => {
+        setSeeding(true);
+        const ok = await seedLadakhData();
+        setSuccess(ok);
+        setSeeding(false);
+    };
     return (
         <main style={{ paddingTop: '140px', minHeight: '100vh' }}>
             <div className="container">
