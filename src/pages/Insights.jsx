@@ -46,7 +46,7 @@ const Insights = () => {
         <main style={styles.main}>
             <div className="container">
                 <header style={styles.header}>
-                    <div style={styles.badge}>PHAE_KNOWLEDGE_GRID_V4</div>
+                    <div style={styles.badge}>INTEL_SYNC</div>
                     <h1 style={styles.h1}>PEACH <span className="gradient-text">INSIGHTS</span></h1>
                     <p style={styles.subtitle}>
                         Decentralized travel intelligence. High-fidelity 'Ranch-Style' content clusters for the curious explorer.
