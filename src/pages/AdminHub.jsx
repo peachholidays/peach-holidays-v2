@@ -1,137 +1,127 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { seedLadakhData, seedInsightsData } from '../firebase/seedData';
 import { seedJapanCluster } from '../firebase/seedJapan';
-import AdminLogin from './AdminLogin';
 
 /**
- * WebLOGIC: AdminHub
- * A dedicated, high-fidelity administrative terminal for MD Intelligence Tools.
+ * WebLOGIC: AdminHub v3 (Safe-Inline Version)
+ * Consolidating login logic to eliminate import/pathing failures.
  */
 const AdminHub = () => {
+    const [authenticated, setAuthenticated] = useState(false);
+    const [username, setUsername] = useState("");
+    const [password, setPassword] = useState("");
     const [seeding, setSeeding] = useState(false);
-    const [seedingInsights, setSeedingInsights] = useState(false);
-    const [seedingJapan, setSeedingJapan] = useState(false);
     const [success, setSuccess] = useState(false);
-    const [successInsights, setSuccessInsights] = useState(false);
-    const [successJapan, setSuccessJapan] = useState(false);
     const [error, setError] = useState("");
-    const [authenticated, setAuthenticated] = useState(sessionStorage.getItem("md_auth") === "true");
 
-    if (!authenticated) {
-        return <AdminLogin onLogin={() => setAuthenticated(true)} />;
-    }
+    // Check session on mount
+    useEffect(() => {
+        if (sessionStorage.getItem("md_auth") === "true") {
+            setAuthenticated(true);
+        }
+    }, []);
 
-    const handleSeed = async () => {
+    const handleLogin = (e) => {
+        e.preventDefault();
+        if (username === "GlobalAdmin" && password === "DataMaster@2020") {
+            sessionStorage.setItem("md_auth", "true");
+            setAuthenticated(true);
+        } else {
+            setError("AUTH_FAILURE: INVALID_KEY");
+        }
+    };
+
+    const runSeed = async (seedFn, label) => {
         setSeeding(true);
         setError("");
-        const result = await seedLadakhData();
-        setSuccess(result.success);
-        if (result.error) setError(result.error);
+        const result = await seedFn();
+        if (result.success) setSuccess(true);
+        else setError(`${label}_ERROR: ${result.error}`);
         setSeeding(false);
     };
 
-    const handleSeedInsights = async () => {
-        setSeedingInsights(true);
-        setError("");
-        const result = await seedInsightsData();
-        setSuccessInsights(result.success);
-        if (result.error) setError(result.error);
-        setSeedingInsights(false);
-    };
+    // --- RENDER LOGIN ---
+    if (!authenticated) {
+        return (
+            <main style={styles.loginMain}>
+                <div className="glass" style={styles.loginCard}>
+                    <div style={{ marginBottom: '40px' }}>
+                        <div style={styles.badge}>MD_SECURE_ACCESS_V3</div>
+                        <h1 style={{ fontSize: '2.5rem' }}>PHAE <span className="gradient-text">ADMIN</span></h1>
+                    </div>
+                    <form onSubmit={handleLogin} style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+                        <input
+                            type="text"
+                            placeholder="Identifier"
+                            value={username}
+                            onChange={e => setUsername(e.target.value)}
+                            style={styles.input}
+                        />
+                        <input
+                            type="password"
+                            placeholder="AccessKey"
+                            value={password}
+                            onChange={e => setPassword(e.target.value)}
+                            style={styles.input}
+                        />
+                        {error && <div style={{ color: '#ff4b2b', fontSize: '0.8rem' }}>{error}</div>}
+                        <button type="submit" style={styles.btnPrimary}>INITIALIZE_SYNC</button>
+                    </form>
+                </div>
+            </main>
+        );
+    }
 
-    const handleSeedJapan = async () => {
-        setSeedingJapan(true);
-        setError("");
-        const result = await seedJapanCluster();
-        setSuccessJapan(result.success);
-        if (result.error) setError(result.error);
-        setSeedingJapan(false);
-    };
-
+    // --- RENDER DASHBOARD ---
     return (
-        <main style={{ paddingTop: '140px', minHeight: '100vh', background: 'radial-gradient(circle at top, #111, #000)' }}>
+        <main style={styles.main}>
             <div className="container">
                 <header style={{ marginBottom: '60px' }}>
-                    <div style={{ fontSize: '0.7rem', color: 'var(--brand-primary)', letterSpacing: '0.3em', fontWeight: 700, marginBottom: '1rem' }}>
-                        ADMIN_TERMINAL_V2_SECURE
-                    </div>
-                    <h1 style={{ fontSize: '3.5rem' }}>MD <span className="gradient-text">INTELLIGENCE</span></h1>
-                    <p style={{ color: 'var(--text-secondary)', marginTop: '1rem' }}>Centralized control plane for Phae Holiday data injection and GAIEO maintenance.</p>
+                    <div style={styles.badge}>MD_INTELLIGENCE_TERMINAL</div>
+                    <h1 style={{ fontSize: '3.5rem' }}>SYSTEM <span className="gradient-text">CONTROL</span></h1>
                 </header>
 
                 <div style={styles.grid}>
                     <div className="glass" style={styles.card}>
-                        <h3 style={{ color: 'var(--brand-primary)', marginBottom: '1rem' }}>FLIGHT_DATA_INJECTION</h3>
-                        <p style={styles.body}>Deploy exhaustive Ladakh Dreams 2026 tour data including routes, pricing, and visual IDs.</p>
-                        <button
-                            onClick={handleSeed}
-                            disabled={seeding}
-                            style={{ ...styles.btn, background: success ? '#4CAF50' : 'var(--brand-primary)' }}
-                        >
-                            {seeding ? "DEPLOYING_TOUR..." : success ? "DEPLOY_SUCCESS" : "RUN_LADAKH_SEED"}
-                        </button>
+                        <h3>LADAKH_DREAMS_2026</h3>
+                        <p style={styles.cardInfo}>Deploy fixed departure data for Ladakh tour injection.</p>
+                        <button onClick={() => runSeed(seedLadakhData, "LADAKH")} style={styles.btn}>RUN_LADAKH_SEED</button>
                     </div>
 
                     <div className="glass" style={styles.card}>
-                        <h3 style={{ color: 'var(--peach)', marginBottom: '1rem' }}>GAIEO_LEGACY_SCAN</h3>
-                        <p style={styles.body}>Generate and seed the initial AI Insights articles for Vietnam and Ladakh authority.</p>
-                        <button
-                            onClick={handleSeedInsights}
-                            disabled={seedingInsights}
-                            style={{ ...styles.btn, background: successInsights ? '#4CAF50' : 'var(--peach)', color: 'black' }}
-                        >
-                            {seedingInsights ? "SCANNING_KB..." : successInsights ? "SCAN_SUCCESS" : "RUN_GAIEO_SEED"}
-                        </button>
+                        <h3>INSIGHTS_LEGACY</h3>
+                        <p style={styles.cardInfo}>Seed initial GAIEO articles for Sapa and Ladakh.</p>
+                        <button onClick={() => runSeed(seedInsightsData, "INSIGHTS")} style={styles.btn}>RUN_GAIEO_SEED</button>
                     </div>
 
                     <div className="glass" style={{ ...styles.card, gridColumn: 'span 2' }}>
-                        <h3 style={{ color: 'var(--brand-accent)', marginBottom: '1rem' }}>CLUSTER_RANCH_PERSISTENCE (JAPAN)</h3>
-                        <p style={styles.body}>Plant the hierarchical Japan content cluster including Hub/Spoke taxonomy and Safety Widgets.</p>
-                        <button
-                            onClick={handleSeedJapan}
-                            disabled={seedingJapan}
-                            style={{ ...styles.btn, background: successJapan ? '#4CAF50' : 'var(--brand-accent)', color: 'black' }}
-                        >
-                            {seedingJapan ? "PLANTING_RANCH..." : successJapan ? "RANCH_LIVE" : "DEPLOY_JAPAN_CLUSTER"}
-                        </button>
+                        <h3>JAPAN_CLUSTER_RANCH_V1</h3>
+                        <p style={styles.cardInfo}>Deploy hierarchical Hub-and-Spoke cluster + Safety Widgets.</p>
+                        <button onClick={() => runSeed(seedJapanCluster, "JAPAN")} style={styles.btnSecondary}>DEPLOY_JAPAN_CLUSTER</button>
                     </div>
-
-                    {error && (
-                        <div style={{ gridColumn: 'span 2', padding: '20px', background: 'rgba(255,0,0,0.1)', border: '1px solid #ff4b2b', borderRadius: '12px', color: '#ff4b2b', fontSize: '0.8rem' }}>
-                            <strong>INTELLIGENCE_FAILURE:</strong> {error}
-                        </div>
-                    )}
                 </div>
+
+                {seeding && <div style={styles.overlay}>EXECUTING_DATA_STRATEGY...</div>}
+                {success && <div style={{ marginTop: '20px', color: '#4CAF50' }}>SUCCESS: CLUSTER_STABLE</div>}
+                {error && <div style={{ marginTop: '20px', color: '#ff4b2b' }}>{error}</div>}
             </div>
         </main>
     );
 };
 
 const styles = {
-    grid: {
-        display: 'grid',
-        gridTemplateColumns: 'repeat(2, 1fr)',
-        gap: '24px',
-        paddingBottom: '100px',
-    },
-    card: {
-        padding: '32px',
-    },
-    body: {
-        color: 'var(--text-secondary)',
-        fontSize: '0.9rem',
-        lineHeight: 1.6,
-        marginBottom: '24px',
-    },
-    btn: {
-        border: 'none',
-        padding: '12px 32px',
-        borderRadius: '12px',
-        fontWeight: 700,
-        cursor: 'pointer',
-        fontSize: '0.8rem',
-        width: '100%',
-    }
+    loginMain: { height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#000' },
+    loginCard: { width: '400px', padding: '60px 40px', textAlign: 'center' },
+    main: { paddingTop: '160px', minHeight: '100vh', background: 'radial-gradient(circle at top, #111, #000)' },
+    badge: { fontSize: '0.7rem', color: 'var(--brand-primary)', letterSpacing: '0.3em', fontWeight: 700, marginBottom: '1rem' },
+    grid: { display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '24px' },
+    card: { padding: '32px' },
+    cardInfo: { color: 'var(--text-secondary)', fontSize: '0.85rem', marginBottom: '24px', marginTop: '10px' },
+    input: { width: '100%', padding: '14px', background: 'rgba(255,255,255,0.05)', border: '1px solid var(--brand-glass-border)', borderRadius: '8px', color: 'white' },
+    btnPrimary: { background: 'var(--brand-primary)', color: 'white', border: 'none', padding: '16px', borderRadius: '8px', fontWeight: 800, cursor: 'pointer' },
+    btn: { background: 'rgba(255,255,255,0.1)', color: 'white', border: '1px solid var(--brand-glass-border)', padding: '12px', borderRadius: '8px', width: '100%', cursor: 'pointer' },
+    btnSecondary: { background: 'var(--brand-accent)', color: 'black', border: 'none', padding: '14px', borderRadius: '8px', width: '100%', fontWeight: 700, cursor: 'pointer' },
+    overlay: { position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, background: 'rgba(0,0,0,0.8)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--brand-primary)', zIndex: 2000 }
 };
 
 export default AdminHub;
