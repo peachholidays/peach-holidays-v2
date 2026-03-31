@@ -40,6 +40,22 @@ const Dashboard = () => {
                     </div>
 
                     <div className="glass" style={{ ...styles.card, gridColumn: 'span 2' }}>
+                        <h3>MD Intelligence Tools</h3>
+                        <p style={styles.cardBody}>Execute data injection for the Ladakh Dreams 2026 tour directly into the production Firestore.</p>
+                        <button
+                            onClick={handleSeed}
+                            disabled={seeding}
+                            style={{
+                                background: success ? '#4CAF50' : 'var(--brand-primary)',
+                                color: 'white', border: 'none', padding: '12px 24px', borderRadius: '12px', fontWeight: 700, cursor: 'pointer',
+                                marginTop: '20px'
+                            }}
+                        >
+                            {seeding ? "Injecting Data..." : success ? "Ladakh Injected Successfully" : "Seed Ladakh Dreams Data"}
+                        </button>
+                    </div>
+
+                    <div className="glass" style={{ ...styles.card, gridColumn: 'span 2' }}>
                         <h3>Recent Insights</h3>
                         <p style={styles.cardBody}>Top recommendations based on your profile.</p>
                         <div style={styles.insightsList}>
