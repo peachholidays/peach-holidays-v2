@@ -3,6 +3,7 @@ import Navbar from './components/Navbar';
 import Home from './pages/Home';
 import Departures from './pages/Departures';
 import Dashboard from './pages/Dashboard';
+import ComingSoon from './pages/ComingSoon';
 import './App.css';
 
 function App() {
@@ -10,7 +11,9 @@ function App() {
     <Router>
       <Navbar />
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route path="/" element={<ComingSoon />} />
+        <Route path="/lab/alpha" element={<Home />} />
+        <Route path="/lab/tours" element={<Departures />} />
         <Route path="/tours" element={<Departures />} />
         <Route path="/insurance" element={<PlaceholderPage title="Travel Insurance" />} />
         <Route path="/insights" element={<PlaceholderPage title="Travel Insights" />} />
