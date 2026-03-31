@@ -12,7 +12,7 @@ const Navbar = () => {
                     <Link to="/tours" style={styles.link}>Departures</Link>
                     <Link to="/insurance" style={styles.link}>Insurance</Link>
                     <Link to="/insights" style={styles.link}>Insights</Link>
-                    <Link to="/login" className="glass" style={styles.loginBtn}>Portal</Link>
+                    <Link to="/dashboard" className="glass" style={styles.loginBtn}>Portal</Link>
                 </div>
             </div>
         </nav>

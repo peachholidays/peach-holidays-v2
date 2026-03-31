@@ -22,6 +22,12 @@
   /* Functional Colors */
   --text-main: #ffffff;
   --text-dim: rgba(255, 255, 255, 0.7);
+  --text-secondary: rgba(255, 255, 255, 0.5);
+
+  /* Energy DNA Tokens */
+  --peach: hsl(14, 100%, 65%);
+  --neon-pink: hsl(330, 100%, 70%);
+  --electric-indigo: hsl(260, 100%, 75%);
 }
 
 * {
