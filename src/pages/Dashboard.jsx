@@ -6,18 +6,23 @@ const Dashboard = () => {
     const [seedingInsights, setSeedingInsights] = useState(false);
     const [success, setSuccess] = useState(false);
     const [successInsights, setSuccessInsights] = useState(false);
+    const [error, setError] = useState("");
 
     const handleSeed = async () => {
         setSeeding(true);
-        const ok = await seedLadakhData();
-        setSuccess(ok);
+        setError("");
+        const result = await seedLadakhData();
+        setSuccess(result.success);
+        if (result.error) setError(result.error);
         setSeeding(false);
     };
 
     const handleSeedInsights = async () => {
         setSeedingInsights(true);
-        const ok = await seedInsightsData();
-        setSuccessInsights(ok);
+        setError("");
+        const result = await seedInsightsData();
+        setSuccessInsights(result.success);
+        if (result.error) setError(result.error);
         setSeedingInsights(false);
     };
     return (
@@ -75,6 +80,11 @@ const Dashboard = () => {
                                 {seedingInsights ? "Generating Insights..." : successInsights ? "Insights Generated" : "Seed AI Insights"}
                             </button>
                         </div>
+                        {error && (
+                            <div style={{ marginTop: '20px', color: '#ff4b2b', fontSize: '0.8rem', background: 'rgba(255,0,0,0.1)', padding: '12px', borderRadius: '8px', border: '1px solid rgba(255,0,0,0.2)' }}>
+                                <strong>INTELLIGENCE_ERROR:</strong> {error}
+                            </div>
+                        )}
                     </div>
 
                     <div className="glass" style={{ ...styles.card, gridColumn: 'span 2' }}>

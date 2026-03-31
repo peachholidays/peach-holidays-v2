@@ -54,10 +54,10 @@ export const seedLadakhData = async () => {
         });
 
         console.log("WebLOGIC: Ladakh Data Injection SUCCESS.");
-        return true;
+        return { success: true };
     } catch (error) {
         console.error("WebLOGIC: Data Injection FAILURE:", error);
-        return false;
+        return { success: false, error: error.message };
     }
 };
 
@@ -103,9 +103,9 @@ export const seedInsightsData = async () => {
             await setDoc(doc(db, "content_blog", article.slug), article);
         }
         console.log("WebRANK: Insights Generation SUCCESS.");
-        return true;
+        return { success: true };
     } catch (error) {
         console.error("WebRANK: Insights Generation FAILURE:", error);
-        return false;
+        return { success: false, error: error.message };
     }
 };
