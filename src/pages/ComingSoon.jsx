@@ -75,8 +75,8 @@ const ComingSoon = () => {
                 </p>
 
                 <div className="glass" style={styles.formContainer}>
-                    <input type="email" placeholder="JOIN_THE_FLOW@PEACH.COM" style={styles.input} />
-                    <button style={styles.button}>RE-TUNE SOON</button>
+                    <input type="email" placeholder="YOUR EMAIL" style={styles.input} />
+                    <button style={styles.button}>NOTIFY ME</button>
                 </div>
 
                 {/* Social Connectivity */}
