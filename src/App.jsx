@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Home from './pages/Home';
 import Departures from './pages/Departures';
@@ -6,10 +6,13 @@ import Dashboard from './pages/Dashboard';
 import ComingSoon from './pages/ComingSoon';
 import './App.css';
 
-function App() {
+function AppContent() {
+  const location = useLocation();
+  const isComingSoon = location.pathname === '/';
+
   return (
-    <Router>
-      <Navbar />
+    <>
+      {!isComingSoon && <Navbar />}
       <Routes>
         <Route path="/" element={<ComingSoon />} />
         <Route path="/lab/alpha" element={<Home />} />
@@ -20,11 +23,21 @@ function App() {
         <Route path="/login" element={<Dashboard />} />
       </Routes>
 
-      <footer style={styles.footer}>
-        <div className="container">
-          <p>&copy; 2026 Peach Holidays & Events. All Rights Reserved.</p>
-        </div>
-      </footer>
+      {!isComingSoon && (
+        <footer style={styles.footer}>
+          <div className="container">
+            <p>&copy; 2026 Peach Holidays & Events. All Rights Reserved.</p>
+          </div>
+        </footer>
+      )}
+    </>
+  );
+}
+
+function App() {
+  return (
+    <Router>
+      <AppContent />
     </Router>
   );
 }
